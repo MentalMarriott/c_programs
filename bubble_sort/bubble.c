@@ -8,6 +8,7 @@ void print(int *numbers, int sort_number);
 void menu(int *numbers, int sort_number);
 void bubble_sort(int *numbers, int sort_number);
 
+/*starts program and allows you to select size of list*/
 int main()
 {
         int sort_number;
@@ -22,7 +23,7 @@ int main()
 	return 0;
 }
 
-
+/*menu to select what to do*/
 void menu(int *numbers, int sort_number)
 {
 	int option;
@@ -68,7 +69,8 @@ void menu(int *numbers, int sort_number)
 	}
 }
 
-
+/*adds random numbers to list*/
+/*NOT WORKING ATM*/
 void random_generate(int *numbers, int sort_number)
 {
 	int i;
@@ -82,7 +84,7 @@ void random_generate(int *numbers, int sort_number)
 	menu(numbers, sort_number);
 }
 
-
+/*user enters data into list*/
 void user_choice(int *numbers, int sort_number)
 {
 	int i, number;
@@ -98,7 +100,7 @@ void user_choice(int *numbers, int sort_number)
 	menu(numbers, sort_number);	
 }
 
-
+/*goes through list and preforms bubble sort*/
 void bubble_sort(int *numbers, int sort_number)
 {
 	int i, j, check, temp_int;
@@ -133,6 +135,7 @@ void bubble_sort(int *numbers, int sort_number)
 	menu(numbers, sort_number);
 }
 
+/*prints the list to show working*/
 void print(int *numbers, int sort_number)
 {
 	int i;
