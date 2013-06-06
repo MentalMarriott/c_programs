@@ -4,10 +4,17 @@
 
 //method declarations
 void readFile(int lengthOfWord);
+void printArray();
 
 /*array of strings at length of word + 1 for null terminater*/
 //char words[][];
 
+char **wordsArray;
+
+/**
+* Start of the program where user enters a word and that word is then passed
+* on and processed.
+*/
 int main()
 {
 	int length;
@@ -29,19 +36,29 @@ void readFile(int lengthOfWord)
 {
 	printf("%d", lengthOfWord);
 
+	int wordLength = lengthOfWord;
 	char fileName[15];
 	char length[5];
-	char *words[99999][lengthOfWord+1];		   //sets array size to really large
+	int j;
+
+	//creates a 2d array for words to go in
+	wordsArray = (char**)malloc(9999*sizeof(char*));
+	for(j = 0; j < 9999; j++)
+	{
+		wordsArray[j] = (char*) malloc(wordLength*sizeof(char));
+	}
+//	wordsArray[9999][lengthOfWord+1];		   //sets array size to really large
 	char *word;
 	FILE *fp;
 	int i = 0;
 
-	memset(fileName, 0, 15*(sizeof(fileName[0])));	    //clears array
+	printf("%d", wordLength);
 
-	//FIX ISSUE WITH NOT CONVERTING 2 DIGIT NUMBERS//
+	memset(fileName, 0, 15*(sizeof(fileName[0])));	    //clears array
+	memset(wordsArray, 0, 9999*(sizeof(char))); 
 
 	//convert int to string
-	sprintf(length, "%d", lengthOfWord);
+	sprintf(length, "%d", wordLength);
 	printf("temp:%s\n", length);
 
 	printf("%s",fileName);
@@ -52,7 +69,7 @@ void readFile(int lengthOfWord)
 	strcat(fileName, ".dat");
 	printf("3:%s\n", fileName);
 		
-/*
+
 	fp = fopen(fileName, "r");
 
 	if(fp != NULL)
@@ -61,18 +78,35 @@ void readFile(int lengthOfWord)
 
 		while(fgets(word, sizeof(word), fp) != NULL)
 		{
-			fputs(word, stdout);
+			//fputs(word, stdout);  		 //prints out each line
+			wordsArray[i] = word;
+			i++;
 		}
 		fclose(fp);
+		printArray();
 	}else{
 		perror(fileName);
 	}
-*/
-//	fclose(fp);
 }
 
 
+//SORT OUT WORDS NOT ADDING TO ARRAY PROPERLY AND/OR PRINTING RIGHT
 
+/**
+* Prints array to make sure all words are added properly
+*/
+void printArray()
+{
+	int i;
+	int arrayLength;
+	
+	arrayLength = sizeof(wordsArray)/sizeof(char);
+
+	for(i = 0; i < arrayLength; i++)
+	{
+		printf("%d: %s\n", i, wordsArray[i]);
+	} 
+}
 
 
 
