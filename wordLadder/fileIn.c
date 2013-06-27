@@ -4,7 +4,7 @@
 
 //method declarations
 void readFile(int lengthOfWord);
-void printArray();
+void printArray(char** wordList);
 
 /*array of strings at length of word + 1 for null terminater*/
 //char words[][];
@@ -34,7 +34,7 @@ int main()
 /*Reads in file and stores in an array of strings*/
 void readFile(int lengthOfWord)
 {
-	printf("%d", lengthOfWord);
+	printf("Word length: %d\n", lengthOfWord);
 
 	int wordLength = lengthOfWord;
 	char fileName[15];
@@ -49,10 +49,8 @@ void readFile(int lengthOfWord)
 	}
 //	wordsArray[9999][lengthOfWord+1];		   //sets array size to really large
 	char *word;
-	FILE *fp;
-	int i = 0;
-
-	printf("%d", wordLength);
+	//FILE *fp;
+	char wordsList[wordLength+1][9999];
 
 	memset(fileName, 0, 15*(sizeof(fileName[0])));	    //clears array
 	memset(wordsArray, 0, 9999*(sizeof(char))); 
@@ -66,24 +64,29 @@ void readFile(int lengthOfWord)
 	printf("1:%s\n", fileName);
 	strcat(fileName, length);
 	printf("2:%s\n", fileName);
-	strcat(fileName, ".dat");
+	strcat(fileName, ".txt");
 	printf("3:%s\n", fileName);
-		
+	
+	char line[wordLength];	
+	char **lines = NULL;
+	int i = 0;
 
-	fp = fopen(fileName, "r");
+	FILE *fp = fopen(fileName, "r");
 
 	if(fp != NULL)
 	{
 		char word[lengthOfWord+1];
 
-		while(fgets(word, sizeof(word), fp) != NULL)
+		while(fgets(line, wordLength, fp) != NULL)
 		{
 			//fputs(word, stdout);  		 //prints out each line
-			wordsArray[i] = word;
+			lines = (char**)realloc(lines, sizeof(char*)*i);
+			lines[i-1] = strdup(line);
+		//	wordsList[i] = word;
 			i++;
 		}
 		fclose(fp);
-		printArray();
+		printArray(lines);
 	}else{
 		perror(fileName);
 	}
@@ -95,16 +98,16 @@ void readFile(int lengthOfWord)
 /**
 * Prints array to make sure all words are added properly
 */
-void printArray()
+void printArray(char** wordList)
 {
 	int i;
 	int arrayLength;
 	
-	arrayLength = sizeof(wordsArray)/sizeof(char);
+	arrayLength = sizeof(wordList)/sizeof(char);
 
 	for(i = 0; i < arrayLength; i++)
 	{
-		printf("%d: %s\n", i, wordsArray[i]);
+		printf("%d: %s\n", i, wordList[i]);
 	} 
 }
 
