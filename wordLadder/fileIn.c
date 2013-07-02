@@ -50,10 +50,10 @@ void readFile(int lengthOfWord)
 //	wordsArray[9999][lengthOfWord+1];		   //sets array size to really large
 	char *word;
 	//FILE *fp;
-	char wordsList[wordLength+1][9999];
+	char wordsList[wordLength+1][999];
 
 	memset(fileName, 0, 15*(sizeof(fileName[0])));	    //clears array
-	memset(wordsArray, 0, 9999*(sizeof(char))); 
+	memset(wordsArray, 0, 999*(sizeof(char))); 
 
 	//convert int to string
 	sprintf(length, "%d", wordLength);
@@ -67,7 +67,7 @@ void readFile(int lengthOfWord)
 	strcat(fileName, ".txt");
 	printf("3:%s\n", fileName);
 	
-	char line[wordLength];	
+	char line[wordLength+1];	
 	char **lines = NULL;
 	int i = 0;
 
@@ -75,15 +75,13 @@ void readFile(int lengthOfWord)
 
 	if(fp != NULL)
 	{
-		char word[lengthOfWord+1];
+		//char word[lengthOfWord+1];
 
-		while(fgets(line, wordLength, fp) != NULL)
+		while(fgets(line, wordLength+1, fp))
 		{
-			//fputs(word, stdout);  		 //prints out each line
+			i++;
 			lines = (char**)realloc(lines, sizeof(char*)*i);
 			lines[i-1] = strdup(line);
-		//	wordsList[i] = word;
-			i++;
 		}
 		fclose(fp);
 		printArray(lines);
