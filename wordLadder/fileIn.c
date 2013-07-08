@@ -53,8 +53,7 @@ void readFile(int lengthOfWord)
 	strcat(fileName, ".txt");
 	printf("3:%s\n", fileName);
 	
-	char line[wordLength];	
-	//char **wordsArray = NULL;
+	char line[20];	
 	int i = 0;
 	int arraySize = 0;
 
@@ -71,7 +70,7 @@ void readFile(int lengthOfWord)
 		printf("Sizeof char is: %i\n", charSize);
 		printf("One line total size is: %d\n", charSize*sizeOfLine);
 
-		while(fgets(line, (sizeof line)+4, fp))
+		while(fgets(line, 20, fp) != NULL)
 		{
 			i++;
 			arraySize++;
@@ -81,7 +80,7 @@ void readFile(int lengthOfWord)
 			//strcpy(wordsArray[i], line);
 		}
 		fclose(fp);
-		printArray(wordsArray, arraySize);
+		//printArray(wordsArray, arraySize);
 		printf("First word: %s\n", wordsArray[0]);
 	}else{
 		perror(fileName);
