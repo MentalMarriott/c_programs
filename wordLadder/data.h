@@ -1,0 +1,16 @@
+#ifndef DATA_H_GUARD
+#define DATA_H_GUARD 
+
+
+//method declarations
+void readFile(int lengthOfWord);
+void printArray(char** wordList, int arraySize);
+char** getWords();
+void enterWords();
+void validateWords(int lengthWordOne, int lengthWordTwo);
+
+
+
+
+
+#endif

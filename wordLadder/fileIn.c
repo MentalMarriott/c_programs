@@ -2,19 +2,16 @@
 #include <stdio.h>
 #include <string.h>
 
-//method declarations
-void readFile(int lengthOfWord);
-void printArray(char** wordList, int arraySize);
+#include "data.h"
 
-/*array of strings at length of word + 1 for null terminater*/
-//char words[][];
+char **wordsArray = NULL;
 
 
 /**
 * Start of the program where user enters a word and that word is then passed
 * on and processed.
 */
-int main()
+/*int main()
 {
 	int length;
 	char word[16];
@@ -27,7 +24,7 @@ int main()
 	printf("Word is: %s, Length of word is: %d\n", word, length);
 	
 	readFile(length);
-}
+}*/
 
 
 /*Reads in file and stores in an array of strings*/
@@ -40,14 +37,7 @@ void readFile(int lengthOfWord)
 	char length[5];
 	int j;
 
-	//creates a 2d array for words to go in
-	/*for(j = 0; j < 9999; j++)
-	{
-		wordsArray[j] = (char*) malloc(wordLength*sizeof(char));	//each item has space for length of given word
-	}*/
-	
 	char *word;
-	//char wordsList[wordLength+1][999];
 
 	memset(fileName, 0, 15*(sizeof(fileName[0])));	    //clears array
 
@@ -64,11 +54,9 @@ void readFile(int lengthOfWord)
 	printf("3:%s\n", fileName);
 	
 	char line[wordLength];	
-	char **wordsArray = NULL;
+	//char **wordsArray = NULL;
 	int i = 0;
 	int arraySize = 0;
-
-//	memset(wordsArray, 0, 999*(sizeof(wordsArray[0])));
 
 	printf("Word length: %d\n", wordLength);
 
@@ -101,7 +89,6 @@ void readFile(int lengthOfWord)
 }
 
 
-//SORT OUT WORDS NOT ADDING TO ARRAY PROPERLY AND/OR PRINTING RIGHT
 
 /**
 * Prints array to make sure all words are added properly
@@ -119,8 +106,13 @@ void printArray(char** wordsArray, int arraySize)
 	} 
 }
 
-
-
+/**
+* Returns the list of words equal to the length entered
+*/
+char** getWords()
+{
+	return wordsArray;
+}
 
 
 
