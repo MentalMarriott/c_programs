@@ -36,6 +36,10 @@ void enterWords()
 }
 
 
+/**
+* This will check the lengths of both words to see if they match 
+* if not the program will close
+*/
 void validateWords(int lengthWordOne, int lengthWordTwo)
 {
 	if(lengthWordOne != lengthWordTwo)
@@ -44,3 +48,7 @@ void validateWords(int lengthWordOne, int lengthWordTwo)
 		exit(0);
 	}	
 }
+
+
+
+
