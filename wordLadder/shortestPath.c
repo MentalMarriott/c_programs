@@ -62,8 +62,15 @@ void shortestPath(int wordLength)
 {
 	int i, j, queue_size;
 	char word;
+	char alphabet[] = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
+	
+	queue_size = 1;
 
-	queue_size = 0;
+	//printf("Size of char* should be %lu\n", sizeof(char*)); 
+
+	queue = (char**)realloc(queue, sizeof(char*)*queue_size);
+	queue[0] = strdup(start_word);
+	
 
 	if(strcmp(start_word, end_word) == 0)
 	{
@@ -73,16 +80,40 @@ void shortestPath(int wordLength)
 
 	while(queue == NULL)
 	{
+		//compare start word with all possible one letter off words that are in the all_words array
+		
+		//if exists add to end of queue
+
+		//allocate a struct where it is the word and the pointer is to the current word processing's struct
+
+		//lather rinse repeat until either queue is empty or end_word is found
+
+		//if end_word is found then add end word to a list and get the struct it is pointing to
+			//then get that structs word and work back until find start_word 
+			//then print out final list of sorted words
+		//else terminate program declaring there is no word ladder 
+		//THE END!
+		
 		queue_size++;
 		printf("full\n");
 		queue = (char**)realloc(queue, sizeof(char*)*queue_size);
 		queue[queue_size-1] = strdup("this");		
 	}
-		printf("Array contains: %s\n", queue[0]);
-
+		printQueue();
 }
 
 
+void printQueue()
+{
+	int i;
+
+//	printf("size of queue is %lu", sizeof(queue));
+	
+	for(i = 0; i < sizeof(queue)/sizeof(char*); i++)
+	{
+		printf("Queue contains: %s at pos %d\n", queue[i], i);
+	}
+}
 
 /**
 * This will check the lengths of both words to see if they match 

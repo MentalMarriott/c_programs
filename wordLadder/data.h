@@ -9,7 +9,7 @@ char** getWords();
 void enterWords();
 void validateWords(int lengthWordOne, int lengthWordTwo);
 void shortestPath(int wordLength);
-
+void printQueue();
 
 
 
