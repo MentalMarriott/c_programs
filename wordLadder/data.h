@@ -8,7 +8,7 @@ void printArray(char** wordList, int arraySize);
 char** getWords();
 void enterWords();
 void validateWords(int lengthWordOne, int lengthWordTwo);
-
+void shortestPath(int wordLength);
 
 
 
