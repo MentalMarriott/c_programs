@@ -5,12 +5,12 @@
 //method declarations
 void readFile(int lengthOfWord);
 void printArray(char** wordList, int arraySize);
-char** getWords();
+struct ArrayData getWords();
 void enterWords();
 void validateWords(int lengthWordOne, int lengthWordTwo);
 void shortestPath(int wordLength);
 void printQueue();
-
+void addAllWords();
 
 
 #endif

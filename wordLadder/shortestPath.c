@@ -53,11 +53,23 @@ void enterWords()
         printf("Words are: %s %s, Length of words are: %d %d\n", startWord, endWord, startWordLength, endWordLength);
 
         readFile(startWordLength);
-	all_words = getWords();
-	shortestPath(startWordLength);
+	//printf("get words: %lu\n", sizeof(getWords()));
+	//all_words = getWords();
+	addAllWords();
+//	shortestPath(startWordLength);
 }
 
 
+void addAllWords()
+{
+	printf("Int is: %d , WordArray pos 1 is; \n", *getWords());
+}
+/**
+* Process words starting with start_word and creates a type of linked list
+* where each word discoverd has a pointer to the struct of current word.
+* e.g If start word was: CAT then words 1 letter different such at BAT, RAT, MAT etc.
+* would all have the struct pointer in their individual structs pointing to CAT struct.
+*/
 void shortestPath(int wordLength)
 {
 	int i, j, queue_size;
@@ -107,11 +119,11 @@ void printQueue()
 {
 	int i;
 
-//	printf("size of queue is %lu", sizeof(queue));
+	printf("size of queue is %lu", sizeof(all_words));
 	
-	for(i = 0; i < sizeof(queue)/sizeof(char*); i++)
+	for(i = 0; i < sizeof(all_words)/sizeof(char*); i++)
 	{
-		printf("Queue contains: %s at pos %d\n", queue[i], i);
+		printf("Queue contains: %s at pos %d\n", all_words[i], i);
 	}
 }
 

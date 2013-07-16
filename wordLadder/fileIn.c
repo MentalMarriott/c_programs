@@ -5,25 +5,13 @@
 
 char **wordsArray = NULL;
 
+typedef struct ArrayData array_data;
 
-/**
-* Start of the program where user enters a word and that word is then passed
-* on and processed.
-*/
-/*int main()
+struct ArrayData
 {
-	int length;
-	char word[16];
-
-	printf("Enter any word up to 15 characters long: ");
-	scanf("%s", word);
-
-	length = strlen(word);
-
-	printf("Word is: %s, Length of word is: %d\n", word, length);
-	
-	readFile(length);
-}*/
+	int size;
+	char **wordList;
+};
 
 
 /*Reads in file and stores in an array of strings*/
@@ -74,12 +62,9 @@ void readFile(int lengthOfWord)
 			i++;
 			arraySize++;
 			wordsArray = (char**)realloc(wordsArray, sizeof(char*)*i);
-			//printf("Line %d is: %s\n", i, line);
 			wordsArray[i-1] = strdup(line);
-			//strcpy(wordsArray[i], line);
 		}
 		fclose(fp);
-		//printArray(wordsArray, arraySize);
 		printf("First word: %s\n", wordsArray[0]);
 	}else{
 		perror(fileName);
@@ -107,9 +92,13 @@ void printArray(char** wordsArray, int arraySize)
 /**
 * Returns the list of words equal to the length entered
 */
-char** getWords()
+struct ArrayData getWords()
 {
-	return wordsArray;
+	printf("cake");
+	array_data arr_data = {4, wordsArray};
+	printf("Bossom");
+//	printf("Word array size: %lu\n", sizeof(int));
+	return arr_data;
 }
 
 
