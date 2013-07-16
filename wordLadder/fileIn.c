@@ -66,6 +66,7 @@ void readFile(int lengthOfWord)
 		}
 		fclose(fp);
 		printf("First word: %s\n", wordsArray[0]);
+		addAllWords(wordsArray, arraySize);
 	}else{
 		perror(fileName);
 	}
@@ -88,19 +89,4 @@ void printArray(char** wordsArray, int arraySize)
 		printf("%d: %s\n", i, wordsArray[i]);
 	} 
 }
-
-/**
-* Returns the list of words equal to the length entered
-*/
-struct ArrayData getWords()
-{
-	printf("cake");
-	array_data arr_data = {4, wordsArray};
-	printf("Bossom");
-//	printf("Word array size: %lu\n", sizeof(int));
-	return arr_data;
-}
-
-
-
 

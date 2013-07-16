@@ -10,6 +10,7 @@ void enterWords();
 void validateWords(int lengthWordOne, int lengthWordTwo);
 void shortestPath(int wordLength);
 void printQueue();
+void printAllWords(int size);
 void addAllWords();
 
 

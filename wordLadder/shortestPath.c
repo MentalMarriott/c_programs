@@ -53,17 +53,41 @@ void enterWords()
         printf("Words are: %s %s, Length of words are: %d %d\n", startWord, endWord, startWordLength, endWordLength);
 
         readFile(startWordLength);
-	//printf("get words: %lu\n", sizeof(getWords()));
-	//all_words = getWords();
-	addAllWords();
-//	shortestPath(startWordLength);
 }
 
-
-void addAllWords()
+/**
+* This adds all the words from the read in file to the 
+* all words array to be processed later
+*/
+void addAllWords(char **wordsArray, int size)
 {
-	printf("Int is: %d , WordArray pos 1 is; \n", *getWords());
+	int i;
+	all_words = (char**)malloc(size*sizeof(char*));
+
+
+	for(i =0; i < size; i++)
+	{
+		all_words[i] =  wordsArray[i];
+	}	
+	printAllWords(size);
+	
+//	printf("The size of given is %d\n", size);
 }
+
+/**
+* Prints all words to make sure they have been properly added
+*/
+void printAllWords(int size)
+{
+	int i;
+		
+	for(i = 0; i < size; i++)
+	{
+		printf("Word %i is %s\n", i, all_words[i]);
+	}
+}
+
+
 /**
 * Process words starting with start_word and creates a type of linked list
 * where each word discoverd has a pointer to the struct of current word.
