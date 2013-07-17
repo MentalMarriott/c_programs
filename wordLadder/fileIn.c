@@ -62,6 +62,7 @@ void readFile(int lengthOfWord)
 			i++;
 			arraySize++;
 			wordsArray = (char**)realloc(wordsArray, sizeof(char*)*i);
+			strtok(line, "\n");
 			wordsArray[i-1] = strdup(line);
 		}
 		fclose(fp);

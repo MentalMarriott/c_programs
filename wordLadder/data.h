@@ -12,6 +12,6 @@ void shortestPath(int wordLength);
 void printQueue();
 void printAllWords(int size);
 void addAllWords();
-
+void checkIfInAllWords(char *word);
 
 #endif

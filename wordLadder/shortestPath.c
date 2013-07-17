@@ -7,6 +7,10 @@ char **queue = NULL;
 char **all_words = NULL;
 char *start_word, *end_word;
 //char ***word_parent = NULL;
+
+int words_length;
+int all_words_size;
+
 struct word_parent
 {
 	//char *word[];
@@ -43,7 +47,8 @@ void enterWords()
 	endWordLength = strlen(endWord);
 
 	validateWords(startWordLength, endWordLength);	
-
+	words_length = startWordLength;
+	
 	start_word = malloc(sizeof(char*)*startWordLength);
 	end_word = malloc(sizeof(char*)*endWordLength);
 
@@ -53,7 +58,9 @@ void enterWords()
         printf("Words are: %s %s, Length of words are: %d %d\n", startWord, endWord, startWordLength, endWordLength);
 
         readFile(startWordLength);
+	shortestPath(startWordLength);
 }
+
 
 /**
 * This adds all the words from the read in file to the 
@@ -63,13 +70,14 @@ void addAllWords(char **wordsArray, int size)
 {
 	int i;
 	all_words = (char**)malloc(size*sizeof(char*));
-
+	
+	all_words_size = size;
 
 	for(i =0; i < size; i++)
 	{
 		all_words[i] =  wordsArray[i];
 	}	
-	printAllWords(size);
+	//printAllWords(size);
 	
 //	printf("The size of given is %d\n", size);
 }
@@ -106,7 +114,6 @@ void shortestPath(int wordLength)
 
 	queue = (char**)realloc(queue, sizeof(char*)*queue_size);
 	queue[0] = strdup(start_word);
-	
 
 	if(strcmp(start_word, end_word) == 0)
 	{
@@ -114,9 +121,21 @@ void shortestPath(int wordLength)
 		exit(0);
 	}
 
-	while(queue == NULL)
+	while(queue[0] != "")
 	{
-		//compare start word with all possible one letter off words that are in the all_words array
+		for(i = 0; i < words_length; i++)
+		{
+			for(j = 0; j < sizeof(alphabet); j++)
+			{
+				char test_word[words_length];
+				strcpy(test_word, queue[0]);
+//				printf("queue[0] is %s\n", queue[0]); 	
+				test_word[i] = alphabet[j];
+//				printf("Checking %s\n", test_word);
+				checkIfInAllWords(test_word);
+			}
+		}
+	//compare start word with all possible one letter off words that are in the all_words array
 		
 		//if exists add to end of queue
 
@@ -131,11 +150,34 @@ void shortestPath(int wordLength)
 		//THE END!
 		
 		queue_size++;
-		printf("full\n");
+	//	printf("full\n");
 		queue = (char**)realloc(queue, sizeof(char*)*queue_size);
 		queue[queue_size-1] = strdup("this");		
 	}
 		printQueue();
+}
+
+
+void checkIfInAllWords(char *word)
+{
+	int i;
+	//printf("sizeof allwords is %d\n", all_words_size);
+
+	for(i = 0; i < all_words_size; i++)
+	{
+		printf("checking %s against %s comparison is%d\n", word, all_words[i], strcmp(all_words[i], word));
+		char cmp_word[words_length];
+		int test_cmp;
+		strcpy(cmp_word, all_words[i]);
+		test_cmp = strcmp(cmp_word, word);
+		
+		
+		if(strcmp(cmp_word, word) == 0 && strcmp(cmp_word, queue[0]) != 0)
+		{
+			printf("Word %s in allwords\n", word);
+			exit(0);
+		}
+	}
 }
 
 
