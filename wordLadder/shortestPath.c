@@ -10,16 +10,7 @@ char *start_word, *end_word;
 
 int words_length;
 int all_words_size;
-
-struct word_parent
-{
-	//char *word[];
-	struct word_parent *parent;
-	char *word[];
-};
-
-typedef struct word_parent w_p;
-
+int queue_size;
 
 /**
 * Initialises program
@@ -104,16 +95,22 @@ void printAllWords(int size)
 */
 void shortestPath(int wordLength)
 {
-	int i, j, queue_size;
+	int i, j;
 	char word;
 	char alphabet[] = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
+	int inList;
+	w_p *curr, *head;
+
+	inList = 1;
+
+	head = NULL;
 	
 	queue_size = 1;
 
-	//printf("Size of char* should be %lu\n", sizeof(char*)); 
-
 	queue = (char**)realloc(queue, sizeof(char*)*queue_size);
-	queue[0] = strdup(start_word);
+        queue[0] = strdup(start_word);
+
+	removeFromList(start_word, all_words, all_words_size);
 
 	if(strcmp(start_word, end_word) == 0)
 	{
@@ -123,64 +120,119 @@ void shortestPath(int wordLength)
 
 	while(queue[0] != "")
 	{
+        	curr = (w_p*)malloc(sizeof(w_p));
+	        curr->word = queue[0];
+        	curr->parent = head;	
+	
+		head = curr;
+		printf("testing %s\n", queue[0]);
 		for(i = 0; i < words_length; i++)
 		{
 			for(j = 0; j < sizeof(alphabet); j++)
 			{
 				char test_word[words_length];
 				strcpy(test_word, queue[0]);
-//				printf("queue[0] is %s\n", queue[0]); 	
 				test_word[i] = alphabet[j];
-//				printf("Checking %s\n", test_word);
-				checkIfInAllWords(test_word);
+				
+				inList = checkIfInAllWords(test_word);
+				//printf("inList is %d\n", inList);	
+				if(inList == 0)
+				{
+					printf("Adding %s to queue queue_size is %d\n", test_word, queue_size); 
+					curr =(w_p*)malloc(sizeof(w_p));			
+					curr->word = test_word;	
+					curr->parent = head;		
+			
+					inList = 1;
+				}
+				//checks if test_word to see if end_word 	
+				if(strcmp(test_word, end_word) == 0)
+				{
+					ifEndWord(test_word, curr);
+					printf("End word found %s\n", test_word);
+					exit(0);
+				}
 			}
 		}
-	//compare start word with all possible one letter off words that are in the all_words array
-		
-		//if exists add to end of queue
-
-		//allocate a struct where it is the word and the pointer is to the current word processing's struct
-
-		//lather rinse repeat until either queue is empty or end_word is found
-
-		//if end_word is found then add end word to a list and get the struct it is pointing to
-			//then get that structs word and work back until find start_word 
-			//then print out final list of sorted words
-		//else terminate program declaring there is no word ladder 
-		//THE END!
-		
-		queue_size++;
-	//	printf("full\n");
-		queue = (char**)realloc(queue, sizeof(char*)*queue_size);
-		queue[queue_size-1] = strdup("this");		
+		removeFromList(queue[0], queue, queue_size);
 	}
-		printQueue();
+}
+
+/**
+* Takes the found words struct and recursively returns the parent
+* until the parent is null.
+*/
+void ifEndWord(char *word, struct word_parent *curr)
+{
+	w_p *final_struct, *parent_struct;
+	int i;
+	i = 0;
+
+	final_struct = curr;
+	printf("%s->", final_struct->word);	
+	parent_struct = final_struct->parent;
+
+//	while(strcmp(final_struct->word, "") != 0)
+	while(i != 100)
+	{
+		printf("%s->", parent_struct->word);
+		printf("%s->", (parent_struct->parent)->word);
+		i++;
+	}
 }
 
 
-void checkIfInAllWords(char *word)
+/**
+* Checks new word to see if in list of all words and if it is
+* it will remove it from the list
+*/
+int checkIfInAllWords(char *word)
 {
 	int i;
+	int inList = 1;
 	//printf("sizeof allwords is %d\n", all_words_size);
 
 	for(i = 0; i < all_words_size; i++)
 	{
-		printf("checking %s against %s comparison is%d\n", word, all_words[i], strcmp(all_words[i], word));
-		char cmp_word[words_length];
-		int test_cmp;
-		strcpy(cmp_word, all_words[i]);
-		test_cmp = strcmp(cmp_word, word);
-		
-		
-		if(strcmp(cmp_word, word) == 0 && strcmp(cmp_word, queue[0]) != 0)
+		if(strcmp(all_words[i], word) == 0 && strcmp(all_words[i], queue[0]) != 0)
 		{
-			printf("Word %s in allwords\n", word);
-			exit(0);
+			queue_size++;
+			queue = (char**)realloc(queue, sizeof(char*)*queue_size);
+			queue[queue_size-1] = strdup(word);
+			inList = 0;	
+			//exit(0);
 		}
 	}
+	return inList;
 }
 
+/**
+* Find the word in the list given and shuffles all down one from the 
+* position one ahead of the given word and reallocates space. This 
+* effectivelly removes that word;
+*/
+void removeFromList(char *word, char** list, int list_size)
+{
+	int i, j;
 
+	for(i = 0; i < list_size; i++)
+	{
+		if(strcmp(word, list[i]) == 0)
+		{
+			printf("removing word at %d\n", i);
+			for(j = i; j < list_size-1; j++)
+			{
+				strcpy(list[i], list[i+1]);
+				list = (char**)realloc(list, sizeof(char*)*list_size-1);
+			}
+		}
+	}	
+} 
+
+
+/**
+* Prints out the contents of the queue
+*/
 void printQueue()
 {
 	int i;

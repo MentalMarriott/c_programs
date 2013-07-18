@@ -2,6 +2,15 @@
 #define DATA_H_GUARD 
 
 
+struct word_parent
+{
+        //char *word[];
+        struct word_parent *parent;
+        char *word;
+};
+
+typedef struct word_parent w_p;
+
 //method declarations
 void readFile(int lengthOfWord);
 void printArray(char** wordList, int arraySize);
@@ -12,6 +21,9 @@ void shortestPath(int wordLength);
 void printQueue();
 void printAllWords(int size);
 void addAllWords();
-void checkIfInAllWords(char *word);
+int checkIfInAllWords(char *word);
+void removeFromList(char *word, char** list, int size_of_list);
+void ifEndWord(char *word, struct word_parent *curr);
+
 
 #endif
