@@ -22,8 +22,9 @@ void printQueue();
 void printAllWords(int size);
 void addAllWords();
 int checkIfInAllWords(char *word);
-void removeFromList(char *word, char** list, int size_of_list);
-void ifEndWord(char *word, struct word_parent *curr);
+void removeFromAllWords(char *word, char **list, int size_of_list);
+void removeFromQueue();
+void ifEndWord(char *word, struct word_parent curr);
 
 
 #endif
