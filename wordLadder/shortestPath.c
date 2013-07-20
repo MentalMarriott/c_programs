@@ -123,26 +123,31 @@ void shortestPath(int wordLength)
 	{
 		for(i = 0; i < words_length; i++)
 		{
+			printQueue();
 			for(j = 0; j < sizeof(alphabet); j++)
 			{
-				char test_word[words_length];
+				char *test_word = malloc(sizeof(char)*(words_length +1));
 				strcpy(test_word, queue[0].word);
 				test_word[i] = alphabet[j];
 				
 				checkIfInAllWords(test_word);
+			//	printQueue();
 
 				if(strcmp(test_word, end_word) == 0)
 				{
 					printf("end word found\n");
-				//	ifEndWord(test_word, queue[queue_size-1]);
+					ifEndWord(test_word, queue[queue_size-1]);
 					printf("End word found %s\n", test_word);
 					exit(0);
 				}
 			}
 			printf("Done char %d\n", i);
+			printQueue();
 		}
 		removeFromQueue();
 	}
+	printf("No ladder found\n");
+	exit(0);
 }
 
 
@@ -153,11 +158,22 @@ void shortestPath(int wordLength)
 */
 void ifEndWord(char *word, struct word_parent curr)
 {
-	w_p *final_struct, *parent_struct;
+	struct word_parent final_struct, parent_struct;
 	int i;
 	i = 0;
 
-	printf("%s->", curr.word);	
+	//final_struct = malloc(sizeof(w_p));
+	final_struct = curr;
+
+	while(strcmp("", final_struct.word) != 0)
+	{
+		printf("%s->", final_struct.word);
+	
+		parent_struct.parent = final_struct.parent;
+		parent_struct.word = final_struct.word;
+
+		final_struct = parent_struct;
+	}
 
 }
 
@@ -171,33 +187,24 @@ void checkIfInAllWords(char *word)
 	int i, in_words;
 	w_p *head;	
 
-	in_words = 1;
 	for(i = 0; i < all_words_size; i++)
 	{
 		if(strcmp(all_words[i], word) == 0) 
 		{
-			in_words = 0;
-		//	queue_size++;
-		//	queue = (w_p*)realloc(queue, sizeof(w_p)*queue_size);
-		//	queue[queue_size-1].word = word;
-		//	printQueue();
-		//	strcpy(queue[queue_size-1].word, word);
+			queue_size++;
+			queue = (w_p*)realloc(queue, sizeof(w_p)*queue_size);
+			queue[queue_size-1].word = word;
+			printQueue();
+			strcpy(queue[queue_size-1].word, word);
 
-		//	head = (w_p*)malloc(sizeof(w_p));
-		//	head->word = queue[0].word;
-		//	head->parent = queue[0].parent;
+			head = (w_p*)malloc(sizeof(w_p));
+			head->word = queue[0].word;
+			head->parent = queue[0].parent;
 
-		//	queue[queue_size-1].parent = head;
+			queue[queue_size-1].parent = head;
 		}
 	}
 	
-	if(in_words == 0)
-	{
-		printf("adding %s\n", word);
-		queue_size++;
-          	queue = (w_p*)realloc(queue, sizeof(w_p)*queue_size);
-                queue[queue_size-1].word = word;
-	}	
 }
 
 
