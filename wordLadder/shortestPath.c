@@ -101,8 +101,6 @@ void shortestPath(int wordLength)
 	int inList;
 	w_p *head;
 
-	inList = 1;
-
 	head = (w_p*)malloc(sizeof(w_p));
 	head->word = "";
 	head->parent = NULL;
@@ -121,32 +119,28 @@ void shortestPath(int wordLength)
 		exit(0);
 	}
 
-	while(queue[0].parent != NULL)
+	while(queue[0].word != "")
 	{
-		printf("testing floopy %s\n", queue[0].word);
 		for(i = 0; i < words_length; i++)
 		{
-		//	printf("first loop");
 			for(j = 0; j < sizeof(alphabet); j++)
 			{
-		//		printf("second loop");
 				char test_word[words_length];
 				strcpy(test_word, queue[0].word);
 				test_word[i] = alphabet[j];
 				
-				inList = checkIfInAllWords(test_word);
+				checkIfInAllWords(test_word);
 
 				if(strcmp(test_word, end_word) == 0)
 				{
-					printf("end word found");
-					ifEndWord(test_word, queue[queue_size-1]);
+					printf("end word found\n");
+				//	ifEndWord(test_word, queue[queue_size-1]);
 					printf("End word found %s\n", test_word);
 					exit(0);
 				}
 			}
 			printf("Done char %d\n", i);
 		}
-		printf("queue[1] contains %s--------------------------\n", queue[1].word);
 		removeFromQueue();
 	}
 }
@@ -172,36 +166,40 @@ void ifEndWord(char *word, struct word_parent curr)
 * Checks new word to see if in list of all words and if it is
 * it will remove it from the list
 */
-int checkIfInAllWords(char *word)
+void checkIfInAllWords(char *word)
 {
-	int i;
-	int inList = 1;
+	int i, in_words;
 	w_p *head;	
 
-	printf("testing %s\n", word);
+	in_words = 1;
 	for(i = 0; i < all_words_size; i++)
 	{
-		if(strcmp(all_words[i], word) == 0 && strcmp(all_words[i], queue[0].word) != 0)
+		if(strcmp(all_words[i], word) == 0) 
 		{
-			queue_size++;
-			queue = (w_p*)realloc(queue, sizeof(w_p)*queue_size);
-			queue[queue_size-1].word = word;
-			printf("added %s to pos %d\n", word, queue_size-1);
-			printf("size of queue is %lu\n", sizeof(queue));
+			in_words = 0;
+		//	queue_size++;
+		//	queue = (w_p*)realloc(queue, sizeof(w_p)*queue_size);
+		//	queue[queue_size-1].word = word;
+		//	printQueue();
+		//	strcpy(queue[queue_size-1].word, word);
 
-			head = (w_p*)malloc(sizeof(w_p*));
-			head->word = queue[0].word;
-			head->parent = queue[0].parent;
+		//	head = (w_p*)malloc(sizeof(w_p));
+		//	head->word = queue[0].word;
+		//	head->parent = queue[0].parent;
 
-			queue[queue_size-1].parent = head;
-			printf("Queue[%d] contains %s as the word\n", queue_size-1, queue[queue_size-1].word);
-			printf("queue[1] contains %s ==========================\n", queue[1].word);
-			inList = 0;	
+		//	queue[queue_size-1].parent = head;
 		}
 	}
-	//printf("queue[1] contains word %s\n", queue[1].word);
-	return inList;
+	
+	if(in_words == 0)
+	{
+		printf("adding %s\n", word);
+		queue_size++;
+          	queue = (w_p*)realloc(queue, sizeof(w_p)*queue_size);
+                queue[queue_size-1].word = word;
+	}	
 }
+
 
 /**
 * Find the word in all_words and shuffles all down one from the 
@@ -221,7 +219,8 @@ void removeFromAllWords(char *word, char **list, int list_size)
 			{
 				strcpy(list[i], list[i+1]);
 			}
-				list = (char**)realloc(list, sizeof(char*)*list_size-1);
+				list_size--;
+				list = (char**)realloc(list, sizeof(char*)*list_size);
 		}
 	}
 } 
@@ -233,22 +232,20 @@ void removeFromQueue()
 {
 	int i;
 	
-	queue_size--;
-
 	printf("queue[1] contains %s\n", queue[1].word);
 
-	for(i = 0; i < queue_size; i++)
+	for(i = 0; i < queue_size-1; i++)
 	{
-		printf("before swap queue[%i] is %s and queue[%d] is %s\n", i, queue[i].word, i+1, queue[i+1].word);
+	//	printf("before swap queue[%i] is %s and queue[%d] is %s\n", i, queue[i].word, i+1, queue[i+1].word);
 		queue[i] = queue[i+1];
-		printf("after swap queue[%i] is %s and queue[%d] is %s\n", i, queue[i].word, i+1, queue[i+1].word);
+	//	printf("after swap queue[%i] is %s and queue[%d] is %s\n", i, queue[i].word, i+1, queue[i+1].word);
 	}
-
+	queue_size--;
 	queue = (w_p*)realloc(queue, sizeof(w_p)*queue_size);
-	printf("queue[0] contains the word %s\n", queue[0].word);
+	printf("queue[2] contains the word %s\n", queue[2].word);
 }
 
-
+//-------------------------------------------sort print queue
 /**
 * Prints out the contents of the queue
 */
@@ -256,11 +253,9 @@ void printQueue()
 {
 	int i;
 
-	printf("size of queue is %lu", sizeof(all_words));
-	
-	for(i = 0; i < sizeof(all_words)/sizeof(char*); i++)
+	for(i = 0; i < queue_size; i++)
 	{
-		printf("Queue contains: %s at pos %d\n", all_words[i], i);
+		printf("Queue contains: %s at pos %d\n", queue[i].word, i);
 	}
 }
 

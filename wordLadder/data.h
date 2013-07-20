@@ -21,7 +21,7 @@ void shortestPath(int wordLength);
 void printQueue();
 void printAllWords(int size);
 void addAllWords();
-int checkIfInAllWords(char *word);
+void checkIfInAllWords(char *word);
 void removeFromAllWords(char *word, char **list, int size_of_list);
 void removeFromQueue();
 void ifEndWord(char *word, struct word_parent curr);
