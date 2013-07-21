@@ -129,12 +129,11 @@ void shortestPath(int wordLength)
 				char *test_word = malloc(sizeof(char)*(words_length +1));
 				strcpy(test_word, queue[0].word);
 				test_word[i] = alphabet[j];
-
+				
 				checkIfInAllWords(test_word);
 				
 				if(strcmp(test_word, end_word) == 0)
 				{
-					printf("%s is test_word %s is end word, queue contains %s\n", test_word, end_word, queue[queue_size-1].word);
 					ifEndWord(test_word, queue[queue_size-1]);
 					exit(0);
 				}
@@ -166,9 +165,9 @@ void ifEndWord(char *word, struct word_parent curr)
 
 	while(strcmp("", parent_struct->word) != 0)
 	{
-		//parent_struct = parent_struct->parent;
-		printf("%s->", parent_struct->word);
 		parent_struct = parent_struct->parent;
+		printf("%s->", parent_struct->word);
+		//parent_struct = parent_struct->parent;
 	}
 		
 	printf("DONE!\n\n");
@@ -189,8 +188,9 @@ void checkIfInAllWords(char *word)
 		{
 			queue_size++;
 			queue = (w_p*)realloc(queue, sizeof(w_p)*queue_size);
-			queue[queue_size-1].word = word;
-			
+			//queue[queue_size-1].word = word;
+			strcpy(queue[queue_size-1].word, word);
+
 			head = (w_p*)malloc(sizeof(w_p));
 			head->word = queue[0].word;
 			head->parent = queue[0].parent;
@@ -210,17 +210,16 @@ void removeFromAllWords(char *word, char **list, int list_size)
 {
 	int i, j;
 
-	for(i = 0; i < all_words_size; i++)
+	for(i = 0; i < list_size; i++)
 	{
-		if(strcmp(word, all_words[i]) == 0)
+		if(strcmp(word, list[i]) == 0)
 		{
-			printf("removing %s at %d\n", word, i);
-			//for(j = i; j < all_words_size-1; j++)
-			//{
-				strcpy(all_words[i], "0");
-			//}
-			all_words_size--;
-			all_words = (char**)realloc(all_words, sizeof(char*)*all_words_size);
+			for(j = i; j < list_size-1; j++)
+			{
+				list[i] = list[i+1];
+			}
+				all_words_size--;
+				list = (char**)realloc(list, sizeof(char*)*list_size);
 		}
 	}
 } 
@@ -249,9 +248,9 @@ void printQueue()
 {
 	int i;
 
-	for(i = 0; i < all_words_size; i++)
+	for(i = 0; i < queue_size; i++)
 	{
-		printf("Queue contains: %s at pos %d\n", all_words[i], i);
+		printf("Queue contains: %s at pos %d\n", queue[i].word, i);
 	}
 }
 
