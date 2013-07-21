@@ -3,14 +3,16 @@
 #include <string.h>
 #include "data.h"
 
+//my array of structs, array of all words and the start and end word
 w_p *queue;
 char **all_words = NULL;
 char *start_word, *end_word;
-//char ***word_parent = NULL;
 
+//keeps track of list sizes and words length
 int words_length;
 int all_words_size;
 int queue_size;
+
 
 /**
 * Initialises program
@@ -18,20 +20,18 @@ int queue_size;
 int main()
 {
 	enterWords();
-	//item *curr, *parent;
 }
 
+
 /**
-* This is where you enter the two words that you want to
-* create a word ladder between. It then validates and processes.
+* This is where you enter the two words that you want to create a word ladder between. It then validates and processes.
 */
 void enterWords()
 {
         int startWordLength, endWordLength;
-        char startWord[16];
-        char endWord[16];
+        char startWord[16], endWord[16];
 
-        printf("Enter two words up to 15 characters long: ");
+        printf("Enter two words up to 15 characters long of equal length: ");
         scanf("%s %s", startWord, endWord);
 
         startWordLength = strlen(startWord);
@@ -54,8 +54,7 @@ void enterWords()
 
 
 /**
-* This adds all the words from the read in file to the 
-* all words array to be processed later
+* This adds all the words from the read in file to the all words array to be processed later
 */
 void addAllWords(char **wordsArray, int size)
 {
@@ -68,10 +67,8 @@ void addAllWords(char **wordsArray, int size)
 	{
 		all_words[i] =  wordsArray[i];
 	}	
-	//printAllWords(size);
-	
-//	printf("The size of given is %d\n", size);
 }
+
 
 /**
 * Prints all words to make sure they have been properly added
@@ -88,42 +85,45 @@ void printAllWords(int size)
 
 
 /**
-* Process words starting with start_word and creates a type of linked list
-* where each word discoverd has a pointer to the struct of current word.
-* e.g If start word was: CAT then words 1 letter different such at BAT, RAT, MAT etc.
-* would all have the struct pointer in their individual structs pointing to CAT struct.
+* Process words starting with start_word and creates a type of linked list where each word discoverd has a pointer to the struct of current word. e.g If start word was: CAT then words 1 letter different such at BAT, RAT, MAT etc. would all have the struct pointer in their individual structs pointing to CAT struct.
 */
 void shortestPath(int wordLength)
 {
 	int i, j;
 	char word;
 	char alphabet[] = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
-	int inList;
 	w_p *head;
 
+	//sets up the first head, this will be checked for when recursing through tree.
 	head = (w_p*)malloc(sizeof(w_p));
 	head->word = "";
 	head->parent = NULL;
 	
+	//creates space for first element in queue
 	queue_size = 1;
 	queue = (w_p*)realloc(queue, sizeof(w_p)*queue_size);
 
+	//set first element in queue
 	queue[0].word = start_word;
 	queue[0].parent = head;
 
+	//removes first word so doesn't get stuck in a loop
 	removeFromAllWords(start_word, all_words, all_words_size);
 
+	printf("\nTHINKING\n");
+	
+	//if words are the same ladder is already complete
 	if(strcmp(start_word, end_word) == 0)
 	{
 		printf("The ladder is %s -> %s\n", start_word, end_word);
 		exit(0);
 	}
 
-	while(queue[0].word != "")
+	//while there are elements in the queue test the word variations and add to the queue, also checks for final word.
+	while(queue_size != 0)
 	{
 		for(i = 0; i < words_length; i++)
 		{
-			printQueue();
 			for(j = 0; j < sizeof(alphabet); j++)
 			{
 				char *test_word = malloc(sizeof(char)*(words_length +1));
@@ -131,56 +131,50 @@ void shortestPath(int wordLength)
 				test_word[i] = alphabet[j];
 				
 				checkIfInAllWords(test_word);
-			//	printQueue();
-
+				
 				if(strcmp(test_word, end_word) == 0)
 				{
-					printf("end word found\n");
 					ifEndWord(test_word, queue[queue_size-1]);
-					printf("End word found %s\n", test_word);
 					exit(0);
 				}
 			}
-			printf("Done char %d\n", i);
-			printQueue();
 		}
+		//removes the sorted word from the queue
 		removeFromQueue();
 	}
+	//if the queue becomes empty then there is no ladder to be found
 	printf("No ladder found\n");
 	exit(0);
 }
 
 
-
 /**
-* Takes the found words struct and recursively returns the parent
-* until the parent is null.
+* Takes the found words struct and recursively returns the parents word until the parent is null.
 */
 void ifEndWord(char *word, struct word_parent curr)
 {
-	struct word_parent final_struct, parent_struct;
+	struct word_parent final_struct;
+	w_p *parent_struct;
+
 	int i;
 	i = 0;
 
-	//final_struct = malloc(sizeof(w_p));
 	final_struct = curr;
+	printf("\n %s->%s->", end_word, final_struct.word);
+	parent_struct = final_struct.parent;
 
-	while(strcmp("", final_struct.word) != 0)
+	while(strcmp("", parent_struct->word) != 0)
 	{
-		printf("%s->", final_struct.word);
-	
-		parent_struct.parent = final_struct.parent;
-		parent_struct.word = final_struct.word;
-
-		final_struct = parent_struct;
+		parent_struct = parent_struct->parent;
+		printf("%s->", parent_struct->word);
 	}
-
+		
+	printf("DONE!\n\n");
 }
 
 
 /**
-* Checks new word to see if in list of all words and if it is
-* it will remove it from the list
+* Checks new word to see if in list of all words and if it is it will add a struct containing the parent stuct and itself as a string.
 */
 void checkIfInAllWords(char *word)
 {
@@ -194,7 +188,6 @@ void checkIfInAllWords(char *word)
 			queue_size++;
 			queue = (w_p*)realloc(queue, sizeof(w_p)*queue_size);
 			queue[queue_size-1].word = word;
-			printQueue();
 			strcpy(queue[queue_size-1].word, word);
 
 			head = (w_p*)malloc(sizeof(w_p));
@@ -202,6 +195,7 @@ void checkIfInAllWords(char *word)
 			head->parent = queue[0].parent;
 
 			queue[queue_size-1].parent = head;
+			removeFromAllWords(word, all_words, all_words_size);
 		}
 	}
 	
@@ -209,9 +203,7 @@ void checkIfInAllWords(char *word)
 
 
 /**
-* Find the word in all_words and shuffles all down one from the 
-* position one ahead of the given word and reallocates space. This 
-* effectivelly removes that word;
+* Find the word in all_words and shuffles all down one from the position one ahead of the given word and reallocates space. This  effectivelly removes that word.
 */
 void removeFromAllWords(char *word, char **list, int list_size)
 {
@@ -221,38 +213,33 @@ void removeFromAllWords(char *word, char **list, int list_size)
 	{
 		if(strcmp(word, list[i]) == 0)
 		{
-			printf("removing word at %d\n", i);
 			for(j = i; j < list_size-1; j++)
 			{
-				strcpy(list[i], list[i+1]);
+				list[i] = list[i+1];
 			}
-				list_size--;
+				all_words_size--;
 				list = (char**)realloc(list, sizeof(char*)*list_size);
 		}
 	}
 } 
 
+
 /**
-* removes the head of the queue and shuffles the rest of the queue down one
+* removes the head of the queue and shuffles the rest of the queue down one.
 */
 void removeFromQueue()
 {
 	int i;
 	
-	printf("queue[1] contains %s\n", queue[1].word);
-
 	for(i = 0; i < queue_size-1; i++)
 	{
-	//	printf("before swap queue[%i] is %s and queue[%d] is %s\n", i, queue[i].word, i+1, queue[i+1].word);
 		queue[i] = queue[i+1];
-	//	printf("after swap queue[%i] is %s and queue[%d] is %s\n", i, queue[i].word, i+1, queue[i+1].word);
 	}
 	queue_size--;
 	queue = (w_p*)realloc(queue, sizeof(w_p)*queue_size);
-	printf("queue[2] contains the word %s\n", queue[2].word);
 }
 
-//-------------------------------------------sort print queue
+
 /**
 * Prints out the contents of the queue
 */
@@ -266,9 +253,9 @@ void printQueue()
 	}
 }
 
+
 /**
-* This will check the lengths of both words to see if they match 
-* if not the program will close
+* This will check the lengths of both words to see if they match if not the program will close
 */
 void validateWords(int lengthWordOne, int lengthWordTwo)
 {
@@ -278,11 +265,3 @@ void validateWords(int lengthWordOne, int lengthWordTwo)
 		exit(0);
 	}	
 }
-
-
-/**
-* This will check all posible one letter difference combinations
-* and submit them to see if they are a valid word that has not already
-* been found
-*/
-

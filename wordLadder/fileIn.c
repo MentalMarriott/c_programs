@@ -7,21 +7,12 @@ char **wordsArray = NULL;
 
 typedef struct ArrayData array_data;
 
-struct ArrayData
-{
-	int size;
-	char **wordList;
-};
-
 
 /*Reads in file and stores in an array of strings*/
 void readFile(int lengthOfWord)
 {
-	printf("Word length: %d\n", lengthOfWord);
-
 	int wordLength = lengthOfWord;
-	char fileName[15];
-	char length[5];
+	char fileName[15], length[5];
 	int j;
 
 	char *word;
@@ -30,21 +21,14 @@ void readFile(int lengthOfWord)
 
 	//convert int to string
 	sprintf(length, "%d", wordLength);
-	printf("temp:%s\n", length);
 
-	printf("%s",fileName);
 	strcat(fileName, "dict");
-	printf("1:%s\n", fileName);
 	strcat(fileName, length);
-	printf("2:%s\n", fileName);
 	strcat(fileName, ".txt");
-	printf("3:%s\n", fileName);
 	
 	char line[20];	
 	int i = 0;
 	int arraySize = 0;
-
-	printf("Word length: %d\n", wordLength);
 
 	FILE *fp = fopen(fileName, "r");
 
@@ -53,9 +37,6 @@ void readFile(int lengthOfWord)
 		//char word[lengthOfWord+1];
 		int charSize = sizeof(char);
 		int sizeOfLine = sizeof(line);
-		printf("Sizeof line is: %i\n", sizeOfLine);
-		printf("Sizeof char is: %i\n", charSize);
-		printf("One line total size is: %d\n", charSize*sizeOfLine);
 
 		while(fgets(line, 20, fp) != NULL)
 		{
@@ -66,7 +47,7 @@ void readFile(int lengthOfWord)
 			wordsArray[i-1] = strdup(line);
 		}
 		fclose(fp);
-		printf("First word: %s\n", wordsArray[0]);
+		
 		addAllWords(wordsArray, arraySize);
 	}else{
 		perror(fileName);
@@ -74,14 +55,12 @@ void readFile(int lengthOfWord)
 }
 
 
-
 /**
 * Prints array to make sure all words are added properly
 */
 void printArray(char** wordsArray, int arraySize)
 {
-	int i;
-	int arrayLength;
+	int i, arrayLength;
 	
 	printf("Array length is: %d\n", arraySize);
 
@@ -90,4 +69,3 @@ void printArray(char** wordsArray, int arraySize)
 		printf("%d: %s\n", i, wordsArray[i]);
 	} 
 }
-
