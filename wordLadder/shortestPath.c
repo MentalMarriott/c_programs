@@ -63,7 +63,7 @@ void addAllWords(char **wordsArray, int size)
 	
 	all_words_size = size;
 
-	for(i =0; i < size; i++)
+	for(i = 0; i < size; i++)
 	{
 		all_words[i] =  wordsArray[i];
 	}	
