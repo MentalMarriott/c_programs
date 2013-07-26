@@ -134,7 +134,6 @@ void shortestPath(int wordLength)
 				
 				if(strcmp(test_word, end_word) == 0)
 				{
-					printf("%s is test_word %s is end word, queue contains %s\n", test_word, end_word, queue[queue_size-1].word);
 					ifEndWord(test_word, queue[queue_size-1]);
 					exit(0);
 				}
@@ -161,7 +160,7 @@ void ifEndWord(char *word, struct word_parent curr)
 	i = 0;
 
 	final_struct = curr;
-	printf("\n%s->%s->", word, curr.word);
+	printf("\n%s->", curr.word);
 	parent_struct = final_struct.parent;
 
 	while(strcmp("", parent_struct->word) != 0)
@@ -214,11 +213,7 @@ void removeFromAllWords(char *word, char **list, int list_size)
 	{
 		if(strcmp(word, all_words[i]) == 0)
 		{
-			printf("removing %s at %d\n", word, i);
-			//for(j = i; j < all_words_size-1; j++)
-			//{
-				strcpy(all_words[i], "0");
-			//}
+			strcpy(all_words[i], "0");
 			all_words_size--;
 			all_words = (char**)realloc(all_words, sizeof(char*)*all_words_size);
 		}
