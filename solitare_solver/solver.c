@@ -1,3 +1,8 @@
+/**
+* @author Christopher Marriott
+* This program is intended to solve a random game of solitaire and display all
+* the moves either a step by step or list them all.
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
