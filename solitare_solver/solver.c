@@ -30,7 +30,7 @@ void menu()
 	char **deck;
 	
 	deck = (char**)malloc(sizeof(char*)*52);
-	deck = createDeck();
+	createDeck(deck);
 
 	printf("\nPlease select option\n"
 		"Press 'S/s' to shuffle pack,\n"
@@ -92,11 +92,11 @@ void menu()
 * Ad(ace clubs on to king, ace hearts to king and ace diamonds to
 * king. Types are Ace(A), Jack(J), Queen(Q) and King(K) and nums.
 */
-char **createDeck()
+void createDeck(char **new_deck)
 {
 	int i, j, card_count;
 	char suit, type;
-	char *card, **new_deck;
+	char *card;
 
 	new_deck = (char**)malloc(sizeof(char*)*52);
 
@@ -128,9 +128,6 @@ char **createDeck()
 		}
 
 	}
-
-//	viewPack(new_deck);	
-	return new_deck;
 }
 
 
