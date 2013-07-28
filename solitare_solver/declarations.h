@@ -3,8 +3,8 @@
 
 
 void menu();
-void createDeck(char **new_deck);
-void viewPack(char **deck);
+void createDeck();
+void viewPack();
 
 
 #endif

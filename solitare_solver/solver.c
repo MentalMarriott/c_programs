@@ -9,6 +9,8 @@
 #include <ctype.h>
 #include "declarations.h"
 
+char **deck = NULL;
+
 /**
 * Initialises the solver
 */
@@ -27,10 +29,8 @@ int main()
 void menu()
 {
 	char choice;
-	char **deck;
 	
-	deck = (char**)malloc(sizeof(char*)*52);
-	createDeck(deck);
+	createDeck();
 
 	printf("\nPlease select option\n"
 		"Press 'S/s' to shuffle pack,\n"
@@ -52,7 +52,7 @@ void menu()
 		break;	
 
 	case 'p':
-		viewPack(deck);
+		viewPack();
 		break;
 	
 	case 'd':
@@ -92,15 +92,12 @@ void menu()
 * Ad(ace clubs on to king, ace hearts to king and ace diamonds to
 * king. Types are Ace(A), Jack(J), Queen(Q) and King(K) and nums.
 */
-void createDeck(char **new_deck)
+void createDeck()
 {
 	int i, j, card_count;
-	char suit, type;
-	char *card;
+	char *card = malloc(3*sizeof(char));
 
-	new_deck = (char**)malloc(sizeof(char*)*52);
-
-	card = malloc(sizeof(char)*2);
+	deck = (char**)malloc(52*sizeof(char*));
 
 	card_count = 0;
 
@@ -108,23 +105,20 @@ void createDeck(char **new_deck)
 	{
 		for(j = 0; j < 13; j++)
 		{
-			type = (char)i;
+			card[0] = (char)(i+2) + '0';
 
-			if(i == 0)suit = 's';
-			if(i == 1)suit = 'c';
-			if(i == 2)suit = 'h';
-			if(i == 3)suit = 'd';		
+			if(i == 0)card[1] = 's';
+			if(i == 1)card[1] = 'c';
+			if(i == 2)card[1] = 'h';
+			if(i == 3)card[1] = 'd';		
 
-			if(j == 0)type = 'A';	
-			if(j == 10)type = 'J';
-			if(j == 11)type = 'Q';
-			if(j == 12)type = 'K';
+			if(j == 0)card[0] = 'A';	
+			if(j == 10)card[0] = 'J';
+			if(j == 11)card[0] = 'Q';
+			if(j == 12)card[0] = 'K';
 
-			card[0] = type;
-			card[1] = suit; 	
-			new_deck[card_count] = card;
+			deck[card_count] = card;
 			card_count++;
-			printf("card %d is %s\n", card_count, new_deck[card_count]);
 		}
 
 	}
@@ -134,7 +128,7 @@ void createDeck(char **new_deck)
 /**
 * This will print out the current order of the deck
 */
-void viewPack(char **deck)
+void viewPack()
 {
 	int i;
 
