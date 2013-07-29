@@ -94,10 +94,15 @@ void menu()
 */
 void createDeck()
 {
-	int i, j, card_count;
-	char *card = malloc(3*sizeof(char));
+	int i, j, k, card_count;
+	char *card = malloc(4*sizeof(char));
 
 	deck = (char**)malloc(52*sizeof(char*));
+
+	for(k = 0; k < 52; k++)
+	{
+		deck[k] = (char*)malloc(sizeof(char)*4);
+	}
 
 	card_count = 0;
 
@@ -105,20 +110,21 @@ void createDeck()
 	{
 		for(j = 0; j < 13; j++)
 		{
-			////////////////////////////////////////// Wont assign cards properly :(//////////////////////////////////
-			deck[card_count][0] = (char)(i+2) + '0';
+			sprintf(card, "%d", j+1);
+		
+			if(j == 0)strcpy(card, "A");	
+			if(j == 10)strcpy(card, "J");
+			if(j == 11)strcpy(card, "Q");
+			if(j == 12)strcpy(card, "K");
 
-			if(i == 0)deck[1][card_count] = 's';
-			if(i == 1)deck[1][card_count] = 'c';
-			if(i == 2)deck[1][card_count] = 'h';
-			if(i == 3)deck[1][card_count] = 'd';		
+			if(i == 0)strcat(card, "s");
+			if(i == 1)strcat(card, "c");
+			if(i == 2)strcat(card, "h");
+			if(i == 3)strcat(card, "d");
 
-			if(j == 0)deck[0][card_count] = 'A';	
-			if(j == 10)deck[0][card_count] = 'J';
-			if(j == 11)deck[0][card_count] = 'Q';
-			if(j == 12)deck[0][card_count] = 'K';
-
-//			deck[card_count] = card;
+//			printf("%s\n", card);
+			strcpy(deck[card_count], card);
+			printf("%s", deck[card_count]);
 			card_count++;
 		}
 
@@ -137,6 +143,7 @@ void viewPack()
 	{
 		printf("Card %s is at position %d\n", deck[i], i);
 	}
+	main();
 }
 
 
