@@ -105,19 +105,20 @@ void createDeck()
 	{
 		for(j = 0; j < 13; j++)
 		{
-			card[0] = (char)(i+2) + '0';
+			////////////////////////////////////////// Wont assign cards properly :(//////////////////////////////////
+			deck[card_count][0] = (char)(i+2) + '0';
 
-			if(i == 0)card[1] = 's';
-			if(i == 1)card[1] = 'c';
-			if(i == 2)card[1] = 'h';
-			if(i == 3)card[1] = 'd';		
+			if(i == 0)deck[1][card_count] = 's';
+			if(i == 1)deck[1][card_count] = 'c';
+			if(i == 2)deck[1][card_count] = 'h';
+			if(i == 3)deck[1][card_count] = 'd';		
 
-			if(j == 0)card[0] = 'A';	
-			if(j == 10)card[0] = 'J';
-			if(j == 11)card[0] = 'Q';
-			if(j == 12)card[0] = 'K';
+			if(j == 0)deck[0][card_count] = 'A';	
+			if(j == 10)deck[0][card_count] = 'J';
+			if(j == 11)deck[0][card_count] = 'Q';
+			if(j == 12)deck[0][card_count] = 'K';
 
-			deck[card_count] = card;
+//			deck[card_count] = card;
 			card_count++;
 		}
 
