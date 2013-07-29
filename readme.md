@@ -12,3 +12,6 @@ Translates from words/morse code into the other.
 - Finds shortest path between two words,
 - Finds List of words given a word and number,
 - Each adjacent word must differ by only 1 letter.
+
+## Solitaire Solver
+- Solves a randomly generated solitaire game
