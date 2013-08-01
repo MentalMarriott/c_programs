@@ -9,7 +9,7 @@
 #include <ctype.h>
 #include "declarations.h"
 
-char **deck = NULL;
+char **deck = NULL, **shuffledDeck = NULL;
 
 /**
 * Initialises the solver
@@ -48,7 +48,7 @@ void menu()
 	{
 	
 	case 's':
-		//shufflePack();
+		shufflePack();
 		break;	
 
 	case 'p':
@@ -128,6 +128,46 @@ void createDeck()
 			card_count++;
 		}
 
+	}
+}
+
+
+/**
+* This will take the sorted deck and create a new deck where the cards will be in a random order 
+* simulating a shuffled deck.
+*/
+void shufflePack()
+{
+	int i, j, cards_picked[52], places_occupied[52], cards_left, rand_card, rand_pos, can_copy, add_pos;
+
+	cards_left = 52;
+	add_pos = 0;	
+
+	shuffledDeck = (char**)malloc(sizeof(char*)*52);
+
+	while(cards_left != 0)
+	{
+		rand_card = rand()%52;
+		rand_pos = rand()%52;
+		
+		can_copy = 0;
+
+		for(i = 0; i < 52; i++)
+		{
+			if(cards_picked[i] == rand_card || places_occupied[i] == rand_pos)
+				can_copy = 1;
+		}	
+
+		if(can_copy)
+		{
+			strcpy(shuffledDeck[rand_pos], deck[rand_card]);
+			
+			cards_picked[add_pos] = rand_card;
+			places_occupied[add_pos] = rand_pos;
+	
+			add_pos++;	
+			cards_left--;
+		}			
 	}
 }
 
