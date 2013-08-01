@@ -34,7 +34,8 @@ void menu()
 
 	printf("\nPlease select option\n"
 		"Press 'S/s' to shuffle pack,\n"
-		"Press 'P/p' to view pack order (top down)\n"
+		"Press 'P/p' to view sorted pack order (top down)\n"
+		"Press 'R/r' to view shuffled pack\n"
 	 	"Press 'D/d' to deal cards out\n"
                 "Press 'V/v' to view currently dealt game'\n"
 		"Press 'M/m' to make a single move\n"
@@ -54,6 +55,10 @@ void menu()
 	case 'p':
 		viewPack();
 		break;
+
+	case 'r':
+		viewShuffled();
+		break; 
 	
 	case 'd':
 		//dealCards();
@@ -81,8 +86,7 @@ void menu()
 		main();
 		break;
 	}
-
-	printf("ErRoR! System will now exit\n");
+	menu();
 }
 
 
@@ -122,7 +126,6 @@ void createDeck()
 			if(i == 2)strcat(card, "h");
 			if(i == 3)strcat(card, "d");
 
-//			printf("%s\n", card);
 			strcpy(deck[card_count], card);
 			printf("%s", deck[card_count]);
 			card_count++;
@@ -145,10 +148,12 @@ void shufflePack()
 
 	shuffledDeck = (char**)malloc(sizeof(char*)*52);
 
+	srand(time(NULL));
+	
 	while(cards_left != 0)
 	{
-		rand_card = rand()%52;
-		rand_pos = rand()%52;
+		rand_card = rand()%52+1;
+		rand_pos = rand()%52+1;
 		
 		can_copy = 0;
 
@@ -158,12 +163,14 @@ void shufflePack()
 				can_copy = 1;
 		}	
 
-		if(can_copy)
+		if(can_copy == 0)
 		{
-			strcpy(shuffledDeck[rand_pos], deck[rand_card]);
+			shuffledDeck[rand_pos] = deck[rand_card];
 			
 			cards_picked[add_pos] = rand_card;
 			places_occupied[add_pos] = rand_pos;
+
+			printf("pos: %d swapping %d with %d\n", add_pos, rand_card, rand_pos);
 	
 			add_pos++;	
 			cards_left--;
@@ -183,9 +190,18 @@ void viewPack()
 	{
 		printf("Card %s is at position %d\n", deck[i], i);
 	}
-	main();
 }
 
 
+/**
+* This will print out the shuffled deck
+*/
+void viewShuffled()
+{
+	int i;
 
-
+        for(i = 0; i < 52; i++)
+        {   
+                printf("Card %s is at position %d\n", shuffledDeck[i], i); 
+        } 
+}

@@ -6,5 +6,6 @@ void menu();
 void createDeck();
 void viewPack();
 void shufflePack();
+void viewShuffled();
 
 #endif
