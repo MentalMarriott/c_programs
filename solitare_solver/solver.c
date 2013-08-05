@@ -9,14 +9,17 @@
 #include <ctype.h>
 #include "declarations.h"
 
-char **deck = NULL, **shuffledDeck = NULL;
+char **deck = NULL, **shuffled_deck = NULL;
 
 /**
 * Initialises the solver
 */
 int main()
 {
-	menu();
+	while(0 == 0)
+	{
+		menu();
+	}
 	return 0;
 }
 
@@ -32,7 +35,7 @@ void menu()
 	
 	createDeck();
 
-	printf("\nPlease select option\n"
+	printf("\f\nPlease select option\n"
 		"Press 'S/s' to shuffle pack,\n"
 		"Press 'P/p' to view sorted pack order (top down)\n"
 		"Press 'R/r' to view shuffled pack\n"
@@ -54,11 +57,16 @@ void menu()
 
 	case 'p':
 		viewPack();
-		break;
 
 	case 'r':
-		viewShuffled();
-		break; 
+		if(shuffled_deck == NULL)
+		{
+			printf("Deck not been shuffled yet!\n");
+			break;
+		}else{
+			viewShuffled();
+			break; 
+		}
 	
 	case 'd':
 		//dealCards();
@@ -83,10 +91,8 @@ void menu()
 
 	default:
 		printf("Invalid selection try again\n");
-		main();
 		break;
 	}
-	menu();
 }
 
 
@@ -146,18 +152,18 @@ void shufflePack()
 	cards_left = 52;
 	add_pos = 0;	
 
-	shuffledDeck = (char**)malloc(sizeof(char*)*52);
+	shuffled_deck = (char**)malloc(sizeof(char*)*52);
 
 	srand(time(NULL));
 	
 	while(cards_left != 0)
 	{
-		rand_card = rand()%52+1;
-		rand_pos = rand()%52+1;
+		rand_card = rand()%52;
+		rand_pos = rand()%52;
 		
 		can_copy = 0;
 
-		for(i = 0; i < 52; i++)
+		for(i = 0; i < 51; i++)
 		{
 			if(cards_picked[i] == rand_card || places_occupied[i] == rand_pos)
 				can_copy = 1;
@@ -165,7 +171,7 @@ void shufflePack()
 
 		if(can_copy == 0)
 		{
-			shuffledDeck[rand_pos] = deck[rand_card];
+			shuffled_deck[rand_pos] = deck[rand_card];
 			
 			cards_picked[add_pos] = rand_card;
 			places_occupied[add_pos] = rand_pos;
@@ -199,9 +205,9 @@ void viewPack()
 void viewShuffled()
 {
 	int i;
-
+	
         for(i = 0; i < 52; i++)
         {   
-                printf("Card %s is at position %d\n", shuffledDeck[i], i); 
+                printf("Card %s is at position %d\n", shuffled_deck[i], i); 
         } 
 }
