@@ -1,7 +1,7 @@
 /**
 * @author Christopher Marriott
 * This program is intended to solve a random game of solitaire and display all
-* the moves either a step by step or list them all.
+* the moves either, step by step or list them all.
 */
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,10 +16,13 @@ char **deck = NULL, **shuffled_deck = NULL;
 */
 int main()
 {
-	while(0 == 0)
+	createDeck();
+
+	while(1)
 	{
 		menu();
 	}
+
 	return 0;
 }
 
@@ -32,9 +35,8 @@ int main()
 void menu()
 {
 	char choice;
+	int ch;
 	
-	createDeck();
-
 	printf("\f\nPlease select option\n"
 		"Press 'S/s' to shuffle pack,\n"
 		"Press 'P/p' to view sorted pack order (top down)\n"
@@ -46,6 +48,10 @@ void menu()
 		"Press 'X/x' to exit program\n\n");
 
 	choice = getchar();
+
+	//this is used to get rid of any extra chars and newline
+	while((ch = getchar()) != '\n');
+
 	choice = tolower(choice);
 
 	switch(choice)
