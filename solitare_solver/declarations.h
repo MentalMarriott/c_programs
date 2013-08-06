@@ -7,5 +7,7 @@ void createDeck();
 void viewPack();
 void shufflePack();
 void viewShuffled();
+void dealGame();
+
 
 #endif
