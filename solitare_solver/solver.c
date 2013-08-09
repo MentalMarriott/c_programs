@@ -9,7 +9,7 @@
 #include <ctype.h>
 #include "declarations.h"
 
-char **deck = NULL, **shuffled_deck = NULL;
+char **deck  = NULL, **shuffled_deck = NULL;
 
 /**
 * Initialises the solver
