@@ -33,8 +33,8 @@ void dealGame(char **shuffled_deck)
 			char *face_down = malloc(sizeof(char)*5);
 			strcpy(face_down, "*");
 			strcat(face_down, shuffled_deck[card]);
-	
-			game[j][card_pile] = shuffled_deck[card];
+
+			game[j][card_pile] = face_down;
 			card++;
 		}
 		card_pile++;	
@@ -94,19 +94,19 @@ void memoryAllocateStart()
 */
 void printGame()
 {
-	printf("\t\t\t\t\t\t %s\t \n", game[6][6]);
+	printf("\t\t\t\t\t\t %s\t \n", game[6][0]);
 
-	printf("\t\t\t\t\t %s\t %s\t \n", game[5][5], game[6][5]);
+	printf("\t\t\t\t\t %s\t %s\t \n", game[5][0], game[6][1]);
 
-	printf("\t\t\t\t %s\t %s\t %s\t \n", game[4][4], game[5][4], game[6][4]);
+	printf("\t\t\t\t %s\t %s\t %s\t \n", game[4][0], game[5][1], game[6][2]);
 
-	printf("\t\t\t %s\t %s\t %s\t %s\t \n", game[3][3], game[4][3], game[5][3],game[6][3]);
+	printf("\t\t\t %s\t %s\t %s\t %s\t \n", game[3][0], game[4][1], game[5][2],game[6][3]);
 
-	printf("\t\t %s\t %s\t %s\t %s\t %s\t \n", game[2][2], game[3][2], game[4][2],game[5][2], game[6][2]);
+	printf("\t\t %s\t %s\t %s\t %s\t %s\t \n", game[2][0], game[3][1], game[4][2],game[5][3], game[6][4]);
 		
-	printf("\t %s\t %s\t %s\t %s\t %s\t %s\t \n", game[1][1], game[2][1], game[3][1],game[4][1], game[5][1], game[6][1]);
+	printf("\t %s\t %s\t %s\t %s\t %s\t %s\t \n", game[1][0], game[2][1], game[3][2],game[4][3], game[5][4], game[6][5]);
 
-	printf("%s\t %s\t %s\t %s\t %s\t %s\t %s\t \n", game[0][0], game[1][0], game[2][0],game[3][0], game[4][0], game[5][0], game[6][0]); 	
+	printf("%s\t %s\t %s\t %s\t %s\t %s\t %s\t \n", game[0][0], game[1][1], game[2][2],game[3][3], game[4][4], game[5][5], game[6][6]); 	
 
 }
 
