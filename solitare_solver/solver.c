@@ -75,7 +75,7 @@ void menu()
 		}
 	
 	case 'd':
-		//dealCards();
+		dealGame(shuffled_deck);
 		break;
 
 	case 'v':

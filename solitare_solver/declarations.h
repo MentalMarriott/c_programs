@@ -8,5 +8,6 @@ void shufflePack();
 void viewShuffled();
 void dealGame(char **shuffled_deck);
 void memoryAllocateStart();
+void printGame();
 
 #endif
