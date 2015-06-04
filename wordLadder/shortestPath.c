@@ -37,14 +37,14 @@ void enterWords()
         startWordLength = strlen(startWord);
 	endWordLength = strlen(endWord);
 
-	validateWords(startWordLength, endWordLength);	
+	validateWords(startWordLength, endWordLength);
 	words_length = startWordLength;
-	
+
 	start_word = malloc(sizeof(char*)*startWordLength);
 	end_word = malloc(sizeof(char*)*endWordLength);
 
 	start_word = startWord;
-	end_word = endWord;	
+	end_word = endWord;
 
         printf("Words are: %s %s, Length of words are: %d %d\n", startWord, endWord, startWordLength, endWordLength);
 
@@ -60,13 +60,13 @@ void addAllWords(char **wordsArray, int size)
 {
 	int i;
 	all_words = (char**)malloc(size*sizeof(char*));
-	
+
 	all_words_size = size;
 
 	for(i = 0; i < size; i++)
 	{
 		all_words[i] =  wordsArray[i];
-	}	
+	}
 }
 
 
@@ -76,7 +76,7 @@ void addAllWords(char **wordsArray, int size)
 void printAllWords(int size)
 {
 	int i;
-		
+
 	for(i = 0; i < size; i++)
 	{
 		printf("Word %i is %s\n", i, all_words[i]);
@@ -98,7 +98,7 @@ void shortestPath(int wordLength)
 	head = (w_p*)malloc(sizeof(w_p));
 	head->word = "";
 	head->parent = NULL;
-	
+
 	//creates space for first element in queue
 	queue_size = 1;
 	queue = (w_p*)realloc(queue, sizeof(w_p)*queue_size);
@@ -111,7 +111,7 @@ void shortestPath(int wordLength)
 	removeFromAllWords(start_word, all_words, all_words_size);
 
 	printf("\nTHINKING\n");
-	
+
 	//if words are the same ladder is already complete
 	if(strcmp(start_word, end_word) == 0)
 	{
@@ -131,7 +131,7 @@ void shortestPath(int wordLength)
 				test_word[i] = alphabet[j];
 
 				checkIfInAllWords(test_word);
-				
+
 				if(strcmp(test_word, end_word) == 0)
 				{
 					ifEndWord(test_word, queue[queue_size-1]);
@@ -169,7 +169,7 @@ void ifEndWord(char *word, struct word_parent curr)
 		printf("%s->", parent_struct->word);
 		parent_struct = parent_struct->parent;
 	}
-		
+
 	printf("DONE!\n\n");
 }
 
@@ -180,16 +180,16 @@ void ifEndWord(char *word, struct word_parent curr)
 void checkIfInAllWords(char *word)
 {
 	int i, in_words;
-	w_p *head;	
+	w_p *head;
 
 	for(i = 0; i < all_words_size; i++)
 	{
-		if(strcmp(all_words[i], word) == 0) 
+		if(strcmp(all_words[i], word) == 0)
 		{
 			queue_size++;
 			queue = (w_p*)realloc(queue, sizeof(w_p)*queue_size);
 			queue[queue_size-1].word = word;
-			
+
 			head = (w_p*)malloc(sizeof(w_p));
 			head->word = queue[0].word;
 			head->parent = queue[0].parent;
@@ -198,7 +198,7 @@ void checkIfInAllWords(char *word)
 			removeFromAllWords(word, all_words, all_words_size);
 		}
 	}
-	
+
 }
 
 
@@ -218,7 +218,7 @@ void removeFromAllWords(char *word, char **list, int list_size)
 			all_words = (char**)realloc(all_words, sizeof(char*)*all_words_size);
 		}
 	}
-} 
+}
 
 
 /**
@@ -227,7 +227,7 @@ void removeFromAllWords(char *word, char **list, int list_size)
 void removeFromQueue()
 {
 	int i;
-	
+
 	for(i = 0; i < queue_size-1; i++)
 	{
 		queue[i] = queue[i+1];
@@ -260,5 +260,5 @@ void validateWords(int lengthWordOne, int lengthWordTwo)
 	{
 		printf("\nThe lengths of the two words do not match, the program will now terminate\n\n");
 		exit(0);
-	}	
+	}
 }

@@ -95,7 +95,6 @@ void memoryAllocateStart()
 void printGame()
 {
 
-
 	printf("\t\t\t\t\t\t %s\t \n", game[6][0]);
 
 	printf("\t\t\t\t\t %s\t %s\t \n", game[5][0], game[6][1]);
