@@ -11,7 +11,12 @@ void compress(char *word);
 int main(int argc, char *argv[])
 {
 	// call compress function
-	compress(argv[1]);
+	if(argc > 1)
+	{
+		compress(argv[1]);
+	}else{
+		printf("No word entered\n");	
+	}
 
 	return 0;
 }
