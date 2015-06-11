@@ -57,7 +57,6 @@ void compress(char *word)
 			count = 0;
 		}
 	}
-	comp_word = (char*) realloc(comp_word, strlen(comp_word));
-	
+	comp_word = (char*) realloc(comp_word, strlen(comp_word)+1); //plus 1 for null terminator
 	printf("After realloc word size is %d in memory and word is %s length is %ld\n", malloc_usable_size(comp_word), comp_word, strlen(comp_word));
 }
